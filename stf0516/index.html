@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+
+	<title>WordPress: Making Opensource Work For You!</title>
+
+	<meta name="description" content="As the WordPress organization states, it is web software you can use to create a beautiful website, blog, or app. It is both free and priceless at the same time! It is also the most popular blogging tool in the world as well as a very powerful content management system (CMS). A conglomerate of major businesses use WordPress today for their blogging and CMS management including the following well-known companies:  The Walt Disney Company, Sony Music, Xerox, Microsoft News Center, Target, the UPS blog and PlayStation.Blog.">
+	<meta name="author" content="Chris Wiegman">
+
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+	<link rel="stylesheet" href="../reveal/css/reveal.css">
+	<link rel="stylesheet" href="../reveal/css/theme/solarized.css" id="theme">
+
+	<!-- Code syntax highlighting -->
+	<link rel="stylesheet" href="../reveal/lib/css/zenburn.css">
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link  = document.createElement( 'link' );
+		link.rel  = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match( /print-pdf/gi ) ? '../reveal/css/print/pdf.css' : '../reveal/css/print/paper.css';
+		document.getElementsByTagName( 'head' )[0].appendChild( link );
+	</script>
+
+	<!--[if lt IE 9]>
+	<script src="lib/js/html5shiv.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+
+<div class="reveal">
+
+	<!-- Any section element inside of this container is displayed as a slide -->
+	<div class="slides">
+		<section>
+			<h1>WordPress</h1>
+
+			<h3>Making Opensource Work For You!</h3>
+
+			<p>
+				<small><a href="https://twitter.com/ChrisWiegman">@ChrisWiegman</a> |
+					<a href="https://www.chriswiegman.com/">ChrisWiegman.com</a> | <a href="http://10up.com/">10up</a>
+				</small>
+			</p>
+			<p>
+				<small><a href="https://chriswiegman.github.io/slides/stf0516">https://chriswiegman.github.io/slides/stf0516</a></small>
+			</p>
+		</section>
+
+		<section>
+			<h2>About me</h2>
+
+			<div style="width: 50%; padding: 0; margin: 0; float: left;">
+				<ul>
+					<li>Senior Web Engineer - 10up</li>
+					<li>HigherEd Developer
+						<ul>
+							<li>Southern Illinois University</li>
+							<li>St. Edward's University</li>
+						</ul>
+					</li>
+					<li>Teacher</li>
+					<li>Educator</li>
+				</ul>
+			</div>
+			<div style="width: 50%; padding: 0; margin: 0; float: right;">
+				<img src="img/about.jpg" width="328" height="400" alt="About Chris Wiegman" style="border: none">
+			</div>
+		</section>
+
+		<section>
+			<h2>FOSS</h2>
+
+			<div style="width: 50%; padding: 0; margin: 0; float: left;">
+				<ul>
+					<li>FOSS = Free and Open-source Software
+						<ul>
+							<li>Free as in beer (gratis)</li>
+							<li>Free as in speech (libre)</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div style="width: 50%; padding: 0; margin: 0; float: right;">
+				<img src="img/beer.jpg" width="420" height="500" alt="Free as in beer" style="border: none">
+			</div>
+		</section>
+
+		<section>
+			<blockquote>"Free software is a matter of liberty, not price. To understand the concept, you should think of
+				free as in free speech, not as in free beer."
+			</blockquote>
+			<p style="float: right">- Richard Stallman</p>
+		</section>
+
+		<section>
+			<h2>Why Go Open-source?</h2>
+
+			<ul>
+				<li>Lower start-up costs</li>
+				<li>Lower maintenance costs</li>
+				<li>Future-proof</li>
+				<li>Ability to protect your investment</li>
+				<li>Ability to contribute</li>
+			</ul>
+		</section>
+
+		<section>
+			<h2>Free as In WordPress</h2>
+
+			<div style="width: 50%; padding: 0; margin: 0; float: left;">
+				<ul>
+					<li>GNU General Public License, version 2
+						<ul>
+							<li>Source code must be available</li>
+							<li>All derivative code must use same license or compatible</li>
+							<li><em>The code doesn't have to be free (gratis)</em></li>
+						</ul>
+					</li>
+					<li>Plugins, Themes and time still cost</li>
+				</ul>
+			</div>
+			<div style="width: 50%; padding: 0; margin: 0; float: right;">
+				<img src="img/wordpress.png" width="400" height="400" alt="WordPress" style="border: none">
+			</div>
+		</section>
+
+		<section>
+			<h2>Making Money in WordPress</h2>
+
+			<div style="width: 50%; padding: 0; margin: 0; float: left;">
+				<ul>
+					<li>Support</li>
+					<li>Site Creation</li>
+					<li>Plugins and Themes</li>
+					<li>Consulting</li>
+				</ul>
+			</div>
+			<div style="width: 50%; padding: 0; margin: 0; float: right;">
+				<img src="img/money.jpg" width="400" height="344" alt="Making Money in WordPress" style="border: none">
+			</div>
+
+		</section>
+
+		<section>
+			<h2>What is WordPress?</h2>
+
+			<div style="width: 50%; padding: 0; margin: 0; float: left;">
+				<ul>
+					<li>Content Management System
+						<ul>
+							<li>Articles</li>
+							<li>News</li>
+							<li>Products</li>
+							<li>People</li>
+							<li>Anything else...</li>
+						</ul>
+					</li>
+					<li>25% of the internet</li>
+				</ul>
+			</div>
+			<div style="width: 50%; padding: 0; margin: 0; float: right;">
+				<img src="img/wordpress.png" width="400" height="400" alt="WordPress" style="border: none">
+			</div>
+
+		</section>
+
+		<section>
+			<h2>Who Is WordPress?</h2>
+
+			<ul>
+				<li>Automattic (.com)</li>
+				<li>WordPress Foundation (.org)</li>
+				<li>Audrey Capital</li>
+				<li>And More
+					<ul>
+						<li>10up</li>
+						<li>iThemes</li>
+						<li>Valet</li>
+						<li>Crowd Favorite</li>
+						<li>...</li>
+					</ul>
+				</li>
+			</ul>
+
+		</section>
+
+		<section>
+			<h2>What Can WordPress Do?</h2>
+
+			<h3><em>Nearly anything</em></h3>
+
+			<ul>
+				<li>AMC TV</li>
+				<li>Disney</li>
+				<li>9 to 5 Mac</li>
+				<li>Sony Music</li>
+				<li>The New Yorker</li>
+				<li>Xylem Applied Water</li>
+				<li>BBC America</li>
+				<li>ExpressJet Airlines</li>
+			</ul>
+
+		</section>
+
+		<section>
+			<h2>Under The Hood - The Basics</h2>
+
+			<ul>
+				<li>Apache or NGINX</li>
+				<li>PHP</li>
+				<li>MySQL</li>
+				<li>JavaScript (~ 30%)</li>
+				<li>CSS/SASS</li>
+			</ul>
+
+		</section>
+
+		<section>
+			<h2>Under The Hood - The Big Boys</h2>
+
+			<ul>
+				<li>Memcache or Redis</li>
+				<li>Elasticsearch</li>
+				<li>Content Delivery Network (CDN)</li>
+				<li>Web Application Firewall (WAF)</li>
+				<li>Google Analytics</li>
+				<li>Headless</li>
+			</ul>
+
+		</section>
+
+		<section>
+			<h2>Why WordPress?</h2>
+
+			<ul>
+				<li>Low barrier to entry</li>
+				<li>Wide Range of Code</li>
+				<li>Backwards Compatibility</li>
+				<li>Community</li>
+			</ul>
+
+		</section>
+
+		<section>
+			<h2>The WordPress Community</h2>
+
+			<ul>
+				<li>WordCamps</li>
+				<li>Tutorials</li>
+				<li>Code</li>
+				<li>Training</li>
+			</ul>
+
+		</section>
+
+		<section>
+			<h2>Misconceptions</h2>
+
+			<ul>
+				<li>"Only for blogs"</li>
+				<li>Security</li>
+				<li>Maintainability</li>
+				<li>"Bad" Code</li>
+				<li>I need to be a developer</li>
+			</ul>
+
+		</section>
+
+		<section>
+			<h2>WordPress Security</h2>
+
+			<div style="width: 50%; padding: 0; margin: 0; float: left;">
+				<ul>
+					<li>Don't Ignore It</li>
+					<li>So many eyes</li>
+					<li>Updates are your friend</li>
+					<li>Use Common Sense</li>
+				</ul>
+			</div>
+			<div style="width: 50%; padding: 0; margin: 0; float: right;">
+				<img src="img/security.jpg" width="400" height="329" alt="WordPress Security" style="border: none">
+			</div>
+
+		</section>
+
+		<section>
+			<h2>Getting Started</h2>
+
+			<p>Start small - leave room to grow</p>
+
+			<ul>
+				<li>Add a blog</li>
+				<li>Start a podcast</li>
+				<li>Automate</li>
+				<li>Improve SEO</li>
+				<li>Experiment</li>
+			</ul>
+
+		</section>
+
+		<section>
+			<h2>Handy Plugins and Themes</h2>
+
+			<ul>
+				<li><a href="https://jetpack.com/">Jetpack</a></li>
+				<li><a href="https://wordpress.org/plugins/better-wp-security/">iThemes Security</a></li>
+				<li><a href="https://wordpress.org/plugins/wordpress-seo/">Yoast SEO</a></li>
+				<li><a href="https://easydigitaldownloads.com/">Easy Digital Downloads</a></li>
+				<li><a href="https://givewp.com/">Give</a></li>
+			</ul>
+
+		</section>
+
+		<section>
+			<h2>WordPress Resources</h2>
+
+			<ul>
+				<li><a href="http://www.wpbeginner.com/">WPBeginner</a></li>
+				<li><a href="https://wordpress.org/">WordPress.org</a></li>
+				<li><a href="http://www.thewpcrowd.com/">The WP Crowd</a></li>
+				<li><a href="https://www.facebook.com/groups/advancedwp/">Facebook: Advanced WordPress</a></li>
+				<li><a href="https://wordpress.org/">WordCamp Tampa</a></li>
+				<li><a href="http://www.meetup.com/">Area WordPress Meetups</a></li>
+				<li><a href="https://www.valet.io/">Valet.io</a></li>
+				<li><a href="https://gobblelogic.com">Gobble Logic</a></li>
+			</ul>
+		</section>
+
+		<section>
+			<h2>Other Open-source Projects</h2>
+
+			<ul>
+				<li>Drupal</li>
+				<li>GIT</li>
+				<li>Linux</li>
+				<li>Libre Office</li>
+				<li>Swift</li>
+			</ul>
+		</section>
+
+		<section>
+			<h1>Questions</h1>
+
+			<p>
+				<small><a href="https://twitter.com/ChrisWiegman">@ChrisWiegman</a> |
+					<a href="https://www.chriswiegman.com/">ChrisWiegman.com</a> | <a href="http://10up.com/">10up</a>
+				</small>
+			</p>
+			<p>
+				<small><a href="https://chriswiegman.github.io/slides/stf0516">https://chriswiegman.github.io/slides/stf0516</a></small>
+			</p>
+		</section>
+	</div>
+
+</div>
+
+<script src="../reveal/lib/js/head.min.js"></script>
+<script src="../reveal/js/reveal.js"></script>
+
+<script>
+
+	// Full list of configuration options available at:
+	// https://github.com/hakimel/reveal.js#configuration
+	Reveal.initialize(
+		{
+			controls       : true,
+			progress       : true,
+			history        : true,
+			center         : true,
+			hideAddressBar : true,
+
+			transition : 'fade', // none/fade/slide/convex/concave/zoom
+
+			// Optional reveal.js plugins
+			dependencies : [
+				{
+					src       : '../reveal/lib/js/classList.js',
+					condition : function () {
+						return ! document.body.classList;
+					}
+				},
+				{
+					src       : '../reveal/plugin/markdown/marked.js',
+					condition : function () {
+						return ! ! document.querySelector( '[data-markdown]' );
+					}
+				},
+				{
+					src       : '../reveal/plugin/markdown/markdown.js',
+					condition : function () {
+						return ! ! document.querySelector( '[data-markdown]' );
+					}
+				},
+				{
+					src       : '../reveal/plugin/highlight/highlight.js',
+					async     : true,
+					condition : function () {
+						return ! ! document.querySelector( 'pre code' );
+					},
+					callback  : function () {
+						hljs.initHighlightingOnLoad();
+					}
+				},
+				{
+					src   : '../reveal/plugin/zoom-js/zoom.js',
+					async : true
+				},
+				{
+					src   : '../reveal/plugin/notes/notes.js',
+					async : true
+				}
+			]
+		}
+	);
+
+</script>
+
+</body>
+</html>
