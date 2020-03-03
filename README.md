@@ -1,2 +1,2 @@
-# chriswiegman.github.io
+# slides.chriswiegman.com
 Slides and more

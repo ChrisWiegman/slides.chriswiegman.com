@@ -14,18 +14,18 @@
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
-	<link rel="stylesheet" href="../reveal/css/reveal.css">
-	<link rel="stylesheet" href="../reveal/css/theme/night.css" id="theme">
+	<link rel="stylesheet" href="../node_modules/reveal.js/css/reveal.css">
+	<link rel="stylesheet" href="../node_modules/reveal.js/css/theme/night.css" id="theme">
 
 	<!-- Code syntax highlighting -->
-	<link rel="stylesheet" href="../reveal/lib/css/zenburn.css">
+	<link rel="stylesheet" href="../node_modules/reveal.js/lib/css/zenburn.css">
 
 	<!-- Printing and PDF exports -->
 	<script>
 		var link  = document.createElement( 'link' );
 		link.rel  = 'stylesheet';
 		link.type = 'text/css';
-		link.href = window.location.search.match( /print-pdf/gi ) ? '../reveal/css/print/pdf.css' : '../reveal/css/print/paper.css';
+		link.href = window.location.search.match( /print-pdf/gi ) ? '../node_modules/reveal.js/css/print/pdf.css' : '../node_modules/reveal.js/css/print/paper.css';
 		document.getElementsByTagName( 'head' )[0].appendChild( link );
 	</script>
 
@@ -45,7 +45,7 @@
 
 			<h3>Advanced WordPress Security for Developers</h3>
 
-			<h4><a href="https://chriswiegman.github.io/slides/wpcampus16" title="The Slides">https://chriswiegman.github.io/slides/wpcampus16</a></h4>
+			<h4><a href="https://slides.chriswiegman.com/wpcampus16" title="The Slides">https://slides.chriswiegman.com/wpcampus16</a></h4>
 
 			<p>
 				<small><a href="https://www.chriswiegman.com/">Chris Wiegman</a> /
@@ -694,7 +694,7 @@ if ( $data ) {
 		<section>
 			<h2>Thank You</h2>
 
-			<h3><a href="https://chriswiegman.github.io/slides/wpcampus16" title="The Slides">https://chriswiegman.github.io/slides/wpcampus16</a></h3>
+			<h3><a href="https://slides.chriswiegman.com/wpcampus16" title="The Slides">https://slides.chriswiegman.com/wpcampus16</a></h3>
 
 			<p>
 				<small><a href="https://www.chriswiegman.com/">Chris Wiegman</a> /
@@ -706,8 +706,8 @@ if ( $data ) {
 
 </div>
 
-<script src="../reveal/lib/js/head.min.js"></script>
-<script src="../reveal/js/reveal.js"></script>
+
+<script src="../node_modules/reveal.js/js/reveal.js"></script>
 
 <script>
 
@@ -725,29 +725,29 @@ if ( $data ) {
 		                   // Optional reveal.js plugins
 		                   dependencies : [
 			                   {
-				                   src : '../reveal/lib/js/classList.js', condition : function () {
+				                   src : '../node_modules/reveal.js/lib/js/classList.js', condition : function () {
 				                   return ! document.body.classList;
 			                   }
 			                   },
 			                   {
-				                   src : '../reveal/plugin/markdown/marked.js', condition : function () {
+				                   src : '../node_modules/reveal.js/plugin/markdown/marked.js', condition : function () {
 				                   return ! ! document.querySelector( '[data-markdown]' );
 			                   }
 			                   },
 			                   {
-				                   src : '../reveal/plugin/markdown/markdown.js', condition : function () {
+				                   src : '../node_modules/reveal.js/plugin/markdown/markdown.js', condition : function () {
 				                   return ! ! document.querySelector( '[data-markdown]' );
 			                   }
 			                   },
 			                   {
-				                   src     : '../reveal/plugin/highlight/highlight.js', async : true, condition : function () {
+				                   src     : '../node_modules/reveal.js/plugin/highlight/highlight.js', async : true, condition : function () {
 				                   return ! ! document.querySelector( 'pre code' );
 			                   }, callback : function () {
 				                   hljs.initHighlightingOnLoad();
 			                   }
 			                   },
-			                   {src : '../reveal/plugin/zoom-js/zoom.js', async : true},
-			                   {src : '../reveal/plugin/notes/notes.js', async : true}
+			                   {src : '../node_modules/reveal.js/plugin/zoom-js/zoom.js', async : true},
+			                   {src : '../node_modules/reveal.js/plugin/notes/notes.js', async : true}
 		                   ]
 	                   } );
 

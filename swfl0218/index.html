@@ -7,18 +7,18 @@
 	<title>Understanding WordPress Vulnerabilities (XSS, CSRF, WTF) - Southwest Florida WordPress Meetup - February
 		   2018</title>
 
-	<link rel="stylesheet" href="../reveal/css/reveal.css">
-	<link rel="stylesheet" href="../reveal/css/theme/black.css">
+	<link rel="stylesheet" href="../node_modules/reveal.js/css/reveal.css">
+	<link rel="stylesheet" href="../node_modules/reveal.js/css/theme/black.css">
 
 	<!-- Theme used for syntax highlighting of code -->
-	<link rel="stylesheet" href="../reveal/lib/css/zenburn.css">
+	<link rel="stylesheet" href="../node_modules/reveal.js/lib/css/zenburn.css">
 
 	<!-- Printing and PDF exports -->
 	<script>
 		var link = document.createElement('link');
 		link.rel = 'stylesheet';
 		link.type = 'text/css';
-		link.href = window.location.search.match(/print-pdf/gi) ? '../reveal/css/print/pdf.css' : '../reveal/css/print/paper.css';
+		link.href = window.location.search.match(/print-pdf/gi) ? '../node_modules/reveal.js/css/print/pdf.css' : '../node_modules/reveal.js/css/print/paper.css';
 		document.getElementsByTagName('head')[0].appendChild(link);
 	</script>
 </head>
@@ -29,7 +29,7 @@
 		<section>
 			<h2>Understanding WordPress Vulnerabilities (XSS, CSRF, WTF)</h2>
 
-			<h6><a href="https://chriswiegman.github.io/slides/swfl0218" title="The Slides">https://chriswiegman.github.io/slides/swfl0218</a></h6>
+			<h6><a href="https://slides.chriswiegman.com/swfl0218" title="The Slides">https://slides.chriswiegman.com/swfl0218</a></h6>
 
 			<p>
 				<small><a href="https://chriswiegman.com/">Chris Wiegman</a> /
@@ -622,7 +622,7 @@
 		<section>
 			<h2>Thank You</h2>
 
-			<h3><a href="https://chriswiegman.github.io/slides/swfl0218" title="The Slides">https://chriswiegman.github.io/slides/swfl0218</a></h3>
+			<h3><a href="https://slides.chriswiegman.com/swfl0218" title="The Slides">https://slides.chriswiegman.com/swfl0218</a></h3>
 
 			<p>
 				<small><a href="https://chriswiegman.com/">Chris Wiegman</a> /
@@ -633,8 +633,8 @@
 	</div>
 </div>
 
-<script src="../reveal/lib/js/head.min.js"></script>
-<script src="../reveal/js/reveal.js"></script>
+
+<script src="../node_modules/reveal.js/js/reveal.js"></script>
 
 <script>
 	// More info about config & dependencies:
@@ -642,11 +642,11 @@
 	// - https://github.com/hakimel/reveal.js#dependencies
 	Reveal.initialize({
 		                  dependencies: [
-			                  {src: '../reveal/plugin/markdown/marked.js'},
-			                  {src: '../reveal/plugin/markdown/markdown.js'},
-			                  {src: '../reveal/plugin/notes/notes.js', async: true},
+			                  {src: '../node_modules/reveal.js/plugin/markdown/marked.js'},
+			                  {src: '../node_modules/reveal.js/plugin/markdown/markdown.js'},
+			                  {src: '../node_modules/reveal.js/plugin/notes/notes.js', async: true},
 			                  {
-				                  src: '../reveal/plugin/highlight/highlight.js', async: true, callback: function () {
+				                  src: '../node_modules/reveal.js/plugin/highlight/highlight.js', async: true, callback: function () {
 					                  hljs.initHighlightingOnLoad();
 				                  }
 			                  }
