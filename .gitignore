@@ -1,4 +1,5 @@
-phploy.ini
-vendor
-.idea
-node_modules
+node_modules/
+site/assets/
+
+# Local Netlify folder
+.netlify

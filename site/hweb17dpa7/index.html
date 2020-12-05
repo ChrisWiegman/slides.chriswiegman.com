@@ -1,0 +1,310 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>Make WP-CLI Work For You - HighEdWeb 2017</title>
+
+	<meta name="author" content="Chris Wiegman">
+
+	<link rel="stylesheet" href="../assets/reveal.css">
+	<link rel="stylesheet" href="../assets/theme/night.css" id="theme">
+
+	<!-- Code syntax highlighting -->
+	<link rel="stylesheet" href="../assets/plugin/highlight/zenburn.css">
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<h2>Make WP-CLI Work For You</h2>
+
+				<h4>Extending WP-CLI With Custom Commands</h4>
+
+				<h6><a href="http://wieg.co/hweb17dpa7" title="The Slides">http://wieg.co/hweb17dpa7</a></h6>
+
+				<p>
+					<small><a href="https://chriswiegman.com/">Chris Wiegman</a> /
+						<a href="https://twitter.com/ChrisWiegman">@ChrisWiegman</a></small>
+				</p>
+			</section>
+
+			<section>
+				<h2>About me</h2>
+
+				<div style="width: 50%; padding: 0; margin: 0; float: left;">
+					<ul style="font-size: 75%;">
+						<li>Currently:
+							<ul>
+								<li>Web Developer - UF Health</li>
+								<li>WordPress Core Contributor</li>
+								<li>Speaker/Teacher/Blogger</li>
+							</ul>
+						</li>
+						<li>Previously:
+							<ul>
+								<li>Senior Web Engineer - 10up</li>
+								<li>Built Better WP Security (iThemes Security)</li>
+								<li>Computer Science Instructor - St. Edward’s University</li>
+								<li>Airline Captain/Musician/etc</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div style="width: 50%; padding: 0; margin: 0; float: right;">
+					<img src="img/about.jpg" width="328" height="400" alt="About Chris Wiegman" style="border: none">
+				</div>
+			</section>
+
+			<section>
+				<h2>What is WP-CLI?</h2>
+			</section>
+
+			<section>
+				<p>WP-CLI is a PHP script that interacts with WordPress from the command line (Unix).</p>
+				<em>WP-CLI is not, itself, a plugin.</em>
+			</section>
+
+			<section>
+				<p>WP-CLI works on your server (or local dev environment). It is not necessarily part of WordPress
+					itself.</p>
+			</section>
+
+			<section>
+				<p>WP-CLI lets you work with nearly all parts of WordPress, content, users, settings, plugins, etc.</p>
+			</section>
+
+			<section>
+				<p>WP-CLI has a simple API which makes it easily and infinitely extensible.</p>
+			</section>
+
+			<section>
+				<h2>Why Extend WP-CLI?</h2>
+
+				<p>By default WP-CLI only works <em>with</em> WordPress' core functionality. Extending WP-CLI lets you
+					work
+					with:</p>
+				<ul>
+					<li>Plugins</li>
+					<li>Themes</li>
+					<li>Other (non WordPress) Software</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>What Can a command do?</h2>
+				<ul>
+					<li>Write to a log</li>
+					<li>Enable/Disable options</li>
+					<li>Write to other software</li>
+					<li>Interact with an API</li>
+					<li>Manage cache</li>
+					<li>Handle security functions</li>
+					<li>ALL THE THINGS!</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Some Examples:</h2>
+				<ul>
+					<li>Perform an index of the site with Elasticsearch/ElasticPress</li>
+					<li>Create Munin and Monit plugins</li>
+					<li>Clear iThemes Security logs and lockouts</li>
+					<li>Compare a screenshot of a staging site to production</li>
+					<li>Disable/handicap a user via Fail2ban</li>
+					<li>Offload heavy tasks</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Writing a new command</h2>
+			</section>
+
+			<section>
+				<h2>Each Command Must be Registered</h2>
+				<pre><code class="php">WP_CLI::add_command( 'hello', 'Hello_World_Command' );</code></pre>
+			</section>
+
+			<section>
+				<h2>A command is a simple class</h2>
+				<pre><code class="php">class Hello_World_Command extends WP_CLI_Command {
+	public function __invoke() {
+		WP_CLI::success( 'Hello World' );
+	}
+}
+			</code></pre>
+			</section>
+
+			<section>
+				<pre><code class="bash">$ wp hello</code></pre>
+			</section>
+
+			<section>
+				<h2>But... What about options?</h2>
+				<pre><code data-trim class="php">
+class Hello_World_Command extends WP_CLI_Command {
+
+	/**
+	* An improved Hello World
+	*
+	* @synopsis [&lt;NAME&gt;] [--name=&lt;NAME&gt;]
+	*/
+	public function __invoke( $args, $assoc_args) {
+
+		$name = 'World';
+
+		if ( isset( $args[0] ) || isset( $assoc_args['name'] ) ) {
+			$name = isset( $args[0] ) ? $args[0] : $assoc_args['name'];
+		}
+
+		WP_CLI::success( 'Hello ' . sanitize_text_field( $name );
+
+	}
+
+}
+			</code></pre>
+			</section>
+
+			<section>
+				<pre><code class="bash">$ wp hello Chris</code></pre>
+				<p>or</p>
+				<pre><code class="bash">$ wp hello --name=Chris</code></pre>
+			</section>
+
+			<section>
+				<h2>A subcommand can expand it</h2>
+				<pre><code data-trim class="php">
+class Hello_World_Command extends WP_CLI_Command {
+
+	public function world() {
+
+		WP_CLI::success( 'Hello World' );
+
+	}
+
+	/**
+	* An improved Hello World
+	*
+	* @synopsis &lt;NAME&gt;
+	*/
+	public function name( $args, $assoc_args ) {
+
+		WP_CLI::success( 'Hello ' . sanitize_text_field( $args[0] ) );
+
+	}
+
+}
+			</code></pre>
+			</section>
+
+			<section>
+				<pre><code class="bash">$ wp hello world</code></pre>
+				<p>or</p>
+				<pre><code class="bash">$ wp hello name Chris</code></pre>
+			</section>
+
+			<section>
+				<h2>Custom Command Tips</h2>
+			</section>
+
+			<section>
+				<h2>Don't Automatically Register Commands</h2>
+				<pre><code class="php">
+if ( defined( 'WP_CLI' ) && true === WP_CLI ) {
+	WP_CLI::add_command( 'hello', 'Hello_World_Command' );
+}
+			</code></pre>
+			</section>
+
+			<section>
+				<h2>Success and Failure are Not Treated Equal</h2>
+
+				<pre><code class="php">WP_CLI::success( 'You Did Good' );</code></pre>
+				<pre><code class="php">WP_CLI::error( "You Failed. I'm done" );</code></pre>
+
+				<p><em>WP_CLI::error</em> will, if called like success, terminate the script. Success will just go on
+				</p>
+
+				<p>You can set the 2nd param, <em>exit</em>, to false on WP_CLI::error to continue execution</p>
+
+				<pre><code class="php">WP_CLI::error( "You Failed, but I'll keep going anyway.", false );</code></pre>
+			</section>
+
+			<section>
+				<h2>Use the Formatter</h2>
+				<p>You can automattically output data in various formats:</p>
+				<ul>
+					<li>JSON</li>
+					<li>Table</li>
+					<li>csv</li>
+					<li>IDs</li>
+					<li>count</li>
+				</ul>
+				<pre><code class="php">WP_CLI\Utils\format_items( 'json', get_users(), array( 'ID', 'user_login' ) );</code></pre>
+				<pre><code class="php">WP_CLI\Utils\format_items( 'table', get_users(), array( 'ID', 'user_login' ) );</code></pre>
+			</section>
+
+			<section>
+				<h2>It can do a Progress Bar too!</h2>
+				<pre><code class="php">$notify = \WP_CLI\Utils\make_progress_bar( 'Generating posts', $current_post_count );</code></pre>
+				<pre><code class="php">$notify->tick();</code></pre>
+				<pre><code class="php">$notify->finish();</code></pre>
+			</section>
+
+			<section>
+				<h2>Use The <span style="text-decoration: line-through">Force</span> Utils</h2>
+				<p>Various [not well documented] utility function in <em>php/utils.php</em></p>
+				<ul>
+					<li>locate_wp_config()</li>
+					<li>write_csv( $fd, $rows, $headers = array() )</li>
+					<li>launch_editor_for_input( $input, $title = 'WP-CLI' )</li>
+					<li>parse_url( $url )</li>
+					<li>is_windows()</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>We don't need no stinkin plugin</h2>
+				<p>The <em>path</em> variable lets you execute a command from anywhere</p>
+				<p>Target file only needs the command registration and location of command class (require statement)</p>
+				<p>One command repo on the server/environment/etc can execute commands for all sites</p>
+			</section>
+
+			<section>
+				<h2>Questions?</h2>
+			</section>
+
+			<section>
+				<h2>Thank You</h2>
+
+				<h3><a href="http://wieg.co/hweb17dpa7" title="The Slides">http://wieg.co/hweb17dpa7</a></h3>
+
+				<p>
+					<small><a href="https://chriswiegman.com/">Chris Wiegman</a> /
+						<a href="https://twitter.com/ChrisWiegman">@ChrisWiegman</a></small>
+				</p>
+			</section>
+
+		</div>
+	</div>
+
+	<script src="../assets/reveal.js"></script>
+	<script src="../assets/plugin/highlight/highlight.js"></script>
+
+	<script>
+		Reveal.initialize({
+			controls: true,
+			progress: true,
+			history: true,
+			center: true,
+			hideAddressBar: true,
+			plugins: [RevealHighlight],
+			transition: 'convex'
+		});
+	</script>
+</body>
+
+</html>

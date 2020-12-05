@@ -1,0 +1,657 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>Understanding WordPress Vulnerabilities (XSS, CSRF, WTF) - Southwest Florida WordPress Meetup - February
+		2018</title>
+
+	<meta name="author" content="Chris Wiegman">
+
+	<link rel="stylesheet" href="../assets/reveal.css">
+	<link rel="stylesheet" href="../assets/theme/night.css" id="theme">
+
+	<!-- Code syntax highlighting -->
+	<link rel="stylesheet" href="../assets/plugin/highlight/zenburn.css">
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+
+			<section>
+				<h2>Understanding WordPress Vulnerabilities (XSS, CSRF, WTF)</h2>
+
+				<h6><a href="https://slides.chriswiegman.com/swfl0218"
+						title="The Slides">https://slides.chriswiegman.com/swfl0218</a></h6>
+
+				<p>
+					<small><a href="https://chriswiegman.com/">Chris Wiegman</a> /
+						<a href="https://twitter.com/ChrisWiegman">@ChrisWiegman</a></small>
+				</p>
+			</section>
+
+			<section>
+				<h2>About me</h2>
+
+				<div style="width: 50%; padding: 0; margin: 0; float: left;">
+					<ul style="font-size: 75%;">
+						<li>Currently:
+							<ul>
+								<li>Web Developer - UF Health</li>
+								<li>WordPress Core Contributor</li>
+								<li>Speaker/Teacher/Blogger</li>
+							</ul>
+						</li>
+						<li>Previously:
+							<ul>
+								<li>Senior Web Engineer - 10up</li>
+								<li>Built Better WP Security (iThemes Security)</li>
+								<li>Computer Science Instructor - St. Edward’s University</li>
+								<li>Airline Captain/Musician/etc</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div style="width: 50%; padding: 0; margin: 0; float: right;">
+					<img src="img/about.jpg" width="328" height="400" alt="About Chris Wiegman" style="border: none">
+				</div>
+			</section>
+
+			<section>
+				<h2>Who identifies what is important?</h2>
+			</section>
+
+			<section>
+				<h2>The OWASP Top 10</h2>
+				<ul>
+					<li>OWASP = Open Web Application Security Project</li>
+					<li>Top 10 web application security risks</li>
+					<li>Updated evey 3 years (sort of)</li>
+					<li>Not specific to language or application (applies to them all)</li>
+					<li>https://www.owasp.org/index.php/Category:OWASP_Top_Ten_Project</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>The OWASP Top 10</h2>
+				<ul>
+					<li>Deals with
+						<ul>
+							<li>Code</li>
+							<li>Server configuration</li>
+							<li>General vulnerabilities</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Vulnerability Targets</h2>
+				<ul>
+					<li>
+						Server and application
+						<ul>
+							<li>Targets the site itself</li>
+						</ul>
+					</li>
+					<li>
+						User
+						<ul>
+							<li>Targets the computer or browser of a user visiting the site</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>OWASP Vulnerabilities in WordPress</h2>
+			</section>
+
+			<section>
+				<h2>Major WordPress Vulnerabilities</h2>
+				<ul>
+					<li>Sensitive Data Exposure</li>
+					<li>Security Misconfiguration</li>
+					<li>Injection</li>
+					<li>Cross-site Scripting (XSS)</li>
+					<li>Insecure Direct Object Reference</li>
+					<li>Missing Function Level Access Control</li>
+					<li>Cross Site Request Forgery</li>
+					<li>Insecure Deserialization</li>
+					<li>Using Componenets with Known Vulnerabilities</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Sensitive Data Exposure</h2>
+				<ul>
+					<li>Most common outcome of many attacks</li>
+					<li>Failure to properly encrypt (or otherwise protect) sensitive data</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Sensitive Data Exposer</h2>
+				<ul>
+					<li>
+						Primary Target
+						<ul>
+							<li>Application and server</li>
+						</ul>
+					</li>
+					<li>
+						Potential risk
+						<ul>
+							<li>Severe</li>
+						</ul>
+					</li>
+					<li>
+						Difficulty to exploit
+						<ul>
+							<li>Difficult <sup>*</sup></li>
+						</ul>
+					</li>
+					<li>
+						Outcomes
+						<ul>
+							Sensitive data exposure
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Security Misconfiguration</h2>
+				<ul>
+					<li>A misconfiguration at any level of the stack (server/application/etc) that can lead to a
+						compromise
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Security Misconfiguration</h2>
+				<ul>
+					<li>
+						Primary Target
+						<ul>
+							<li>Application and server</li>
+						</ul>
+					</li>
+					<li>
+						Potential risk
+						<ul>
+							<li>Moderate</li>
+						</ul>
+					</li>
+					<li>
+						Difficulty to exploit
+						<ul>
+							<li>Easy <sup>*</sup></li>
+						</ul>
+					</li>
+					<li>
+						Outcomes
+						<ul>
+							Data corruption, sensitive data exposure
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Injection</h2>
+				<ul>
+					<li>Injection vulnerabilities occur when the application sends untrusted data to an interpreter</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Injection</h2>
+				<ul>
+					<li>
+						Primary Target
+						<ul>
+							<li>Application and server</li>
+						</ul>
+					</li>
+					<li>
+						Potential risk
+						<ul>
+							<li>Severe</li>
+						</ul>
+					</li>
+					<li>
+						Difficulty to exploit
+						<ul>
+							<li>Easy <sup>*</sup></li>
+						</ul>
+					</li>
+					<li>
+						Outcomes
+						<ul>
+							Data corruption, sensitive data exposure, host pwned
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Injection Code Example</h2>
+				<ul>
+					<pre><code data-trim data-noescape>
+					$my_variable = 'variable_name;
+					$x = $_GET['arg'];
+					eval("\$my_variable = \$x;");
+				</code> </pre>
+
+					<pre><code data-trim data-noescape>
+					/index.php?arg=1; phpinfo();
+				</code> </pre>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Cross-Site Scripting (XSS)</h2>
+				<ul>
+					<li>User supplied data is sent to the browser without validation</li>
+					<li>Most common vulnerability</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Cross-Site Scripting (XSS)</h2>
+				<ul>
+					<li>
+						Primary Target
+						<ul>
+							<li>User</li>
+						</ul>
+					</li>
+					<li>
+						Potential risk
+						<ul>
+							<li>Moderate <sup>*</sup></li>
+						</ul>
+					</li>
+					<li>
+						Difficulty to exploit
+						<ul>
+							<li>Average <sup>*</sup></li>
+						</ul>
+					</li>
+					<li>
+						Outcomes
+						<ul>
+							Browser hijack, deface website, redirect user, etc
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>XSS Code Example</h2>
+
+				<pre><code data-trim data-noescape>
+					if ( isset( $_GET['my_secret_key'] ) ) {
+						echo $_GET['my_secret_key'];
+					}
+				</code> </pre>
+
+				<p>or</p>
+
+				<pre><code data-trim data-noescape>
+					__( 'Some text to translate', 'my-awesome-plugin' );
+				</code> </pre>
+
+			</section>
+
+			<section>
+				<h2>Insecure Direct Object Reference</h2>
+				<ul>
+					<li>Use of a key or name to request an object whereas the target object does not verify the
+						requester's
+						access permission.
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Insecure Direct Object Reference</h2>
+				<ul>
+					<li>
+						Primary Target
+						<ul>
+							<li>Application and server</li>
+						</ul>
+					</li>
+					<li>
+						Potential risk
+						<ul>
+							<li>Moderate</li>
+						</ul>
+					</li>
+					<li>
+						Difficulty to exploit
+						<ul>
+							<li>Easy <sup>*</sup></li>
+						</ul>
+					</li>
+					<li>
+						Outcomes
+						<ul>
+							Sensitive data exposure
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Insecure Direct Object Reference Code Example</h2>
+
+				<pre><code data-trim data-noescape>
+					echo esc_html( $my_wp_user->$_GET['user-key'] );
+				</code> </pre>
+
+			</section>
+
+			<section>
+				<h2>Missing Function Level Access Control</h2>
+				<ul>
+					<li>Failure to verify access rights upon access to a specific function.</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Missing Function Level Access Control</h2>
+				<ul>
+					<li>
+						Primary Target
+						<ul>
+							<li>Application and server</li>
+						</ul>
+					</li>
+					<li>
+						Potential risk
+						<ul>
+							<li>Moderate</li>
+						</ul>
+					</li>
+					<li>
+						Difficulty to exploit
+						<ul>
+							<li>Easy <sup>*</sup></li>
+						</ul>
+					</li>
+					<li>
+						Outcomes
+						<ul>
+							Data corruption, sensitive data exposure
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Missing Function Level Access Control Code Example</h2>
+
+				<pre><code data-trim data-noescape>
+					if ( is_admin() ) {
+						echo $user_list;
+					}
+				</code> </pre>
+
+			</section>
+
+			<section>
+				<h2>Cross Site Request Forgery (CSRF)</h2>
+				<ul>
+					<li>Forces a logged-on victim's browser to send a forged HTTP request to a vulnerable application.
+					</li>
+					<li>My include session cooke and other authentication information.</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Cross Site Request Forgery (CSRF)</h2>
+				<ul>
+					<li>
+						Primary Target
+						<ul>
+							<li>User</li>
+						</ul>
+					</li>
+					<li>
+						Potential risk
+						<ul>
+							<li>Moderate</li>
+						</ul>
+					</li>
+					<li>
+						Difficulty to exploit
+						<ul>
+							<li>Average <sup>*</sup></li>
+						</ul>
+					</li>
+					<li>
+						Outcomes
+						<ul>
+							Data corruption, sensitive data exposure
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>CSRF Code Example</h2>
+
+				<pre><code data-trim data-noescape>
+					&lt;img src="http://mysite.com/password=get_my_password" width="0" height="0" /&gt;
+				</code> </pre>
+
+			</section>
+
+			<section>
+				<h2>Insecure Deserialization</h2>
+				<ul>
+					<li>Insecure Deserialization is a vulnerability which occurs when untrusted data is used to abuse
+						the
+						logic of an application, inflict a denial of service (DoS) attack, or even execute arbitrary
+						code
+						upon it being deserialized.
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Insecure Deserialization</h2>
+				<ul>
+					<li>
+						Primary Target
+						<ul>
+							<li>Application and Server</li>
+						</ul>
+					</li>
+					<li>
+						Potential risk
+						<ul>
+							<li>Severe</li>
+						</ul>
+					</li>
+					<li>
+						Difficulty to exploit
+						<ul>
+							<li>Difficult <sup>*</sup></li>
+						</ul>
+					</li>
+					<li>
+						Outcomes
+						<ul>
+							Data corruption, sensitive data exposure, host pwned
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Insecure Deserialization Example</h2>
+
+				<pre><code data-trim data-noescape>
+					unserialize( $_POST['data'] );
+				</code> </pre>
+
+			</section>
+
+			<section>
+				<h2>Using Components with Known Vulnerabilities</h2>
+				<ul>
+					<li>Components, such as libraries, frameworks, and other software modules, run with the same
+						privileges as the application. If a vulnerable component is exploited, such an attack can
+						facilitate
+						serious data loss or server takeover. Applications and APIs using components with known
+						vulnerabilities may undermine application defenses and enable various attacks and impacts.
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Using Components with Known Vulnerabilities</h2>
+				<ul>
+					<li>
+						Primary Target
+						<ul>
+							<li>User, application and Server</li>
+						</ul>
+					</li>
+					<li>
+						Potential risk
+						<ul>
+							<li>Severe</li>
+						</ul>
+					</li>
+					<li>
+						Difficulty to exploit
+						<ul>
+							<li>Easy <sup>*</sup></li>
+						</ul>
+					</li>
+					<li>
+						Outcomes
+						<ul>
+							Data corruption, sensitive data exposure, host pwned
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>General Protection Strategies</h2>
+			</section>
+
+			<section>
+				<h3>Keep Up To Date</h3>
+			</section>
+
+			<section>
+				<h3>Review Your WordPress Dashboard Regularly</h3>
+			</section>
+
+			<section>
+				<h3>Use Coding Standards</h3>
+			</section>
+
+			<section>
+				<h2>Making Coding Standards Easier</h2>
+				<ul>
+					<li>
+						<a
+							href="https://github.com/squizlabs/PHP_CodeSniffer">https://github.com/squizlabs/PHP_CodeSniffer</a>
+						<ul>
+							<li>A linter for PHP</li>
+						</ul>
+					</li>
+					<li>
+						<a
+							href="https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards">https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards</a>
+						<ul>
+							<li>WordPress Coding Standards for PHP_CodeSniffer</li>
+						</ul>
+					</li>
+					<li>
+						<a
+							href="https://github.com/stevegrunwell/wp-enforcer">https://github.com/stevegrunwell/wp-enforcer</a>
+						<ul>
+							<li>Enforces WordPress Coding Standards compliance on GIT commit</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>Know Your Code Editor</h3>
+			</section>
+
+			<section>
+				<h3>Use Appropriate Tools</h3>
+			</section>
+
+			<section>
+				<h2>Important WordPress Security Tools</h2>
+				<ul>
+					<li><a href="https://jetpack.com/">https://jetpack.com/</a></li>
+					<li><a href="https://www.fail2ban.org">https://www.fail2ban.org</a></li>
+					<li><a href="https://sucuri.net/">https://sucuri.net/</a></li>
+					<li><a href="https://www.google.com/webmasters/">https://www.google.com/webmasters/</a></li>
+					<li><a href="https://letsencrypt.org/">https://letsencrypt.org/</a></li>
+					<li><a href="https://www.ssllabs.com/ssltest/">https://www.ssllabs.com/ssltest/</a></li>
+					<li><a href="https://observatory.mozilla.org/">https://observatory.mozilla.org/</a></li>
+				</ul>
+			</section>
+
+			<section>
+				<h3>Have (and Verify) a Backup</h3>
+			</section>
+
+			<section>
+				<h3>Have a Plan</h3>
+			</section>
+
+			<section>
+				<h2>Questions?</h2>
+			</section>
+
+			<section>
+				<h2>Thank You</h2>
+
+				<h3><a href="https://slides.chriswiegman.com/swfl0218"
+						title="The Slides">https://slides.chriswiegman.com/swfl0218</a></h3>
+
+				<p>
+					<small><a href="https://chriswiegman.com/">Chris Wiegman</a> /
+						<a href="https://twitter.com/ChrisWiegman">@ChrisWiegman</a></small>
+				</p>
+			</section>
+
+		</div>
+	</div>
+
+	<script src="../assets/reveal.js"></script>
+	<script src="../assets/plugin/highlight/highlight.js"></script>
+
+	<script>
+		Reveal.initialize({
+			controls: true,
+			progress: true,
+			history: true,
+			center: true,
+			hideAddressBar: true,
+			plugins: [RevealHighlight],
+			transition: 'convex'
+		});
+	</script>
+</body>
+
+</html>
