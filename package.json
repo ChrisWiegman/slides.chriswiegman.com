@@ -13,6 +13,7 @@
   "author": "Chris Wiegman <contact@chriswiegman.com>",
   "license": "ISC",
   "dependencies": {
+    "milligram": "^1.4.1",
     "reveal.js": "^4.1.0"
   }
 }
