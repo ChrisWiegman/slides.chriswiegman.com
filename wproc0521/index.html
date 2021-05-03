@@ -23,8 +23,7 @@
 				<h2>How to Take Your WordPress Site Security to the Next Level</h2>
 				<h4>Rochester WordPress Meetup</h4>
 
-				<p><a href="http://cfw.li/wproc0521"
-						title="The Slides">http://cfw.li/wproc0521</a></p>
+				<p><a href="http://cfw.li/wproc0521" title="The Slides">http://cfw.li/wproc0521</a></p>
 
 				<p>
 					<small><a href="https://www.chriswiegman.com/">Chris Wiegman</a> /
@@ -74,11 +73,14 @@
 				<h2>Layers of Security</h2>
 				<ol>
 					<li>The Network<br />
-						<em>internet traffic before it gets to your sites</em></li>
+						<em>internet traffic before it gets to your sites</em>
+					</li>
 					<li>The Server<br />
-						<em>your host and the computer your host uses to store, process and send your website</em></li>
+						<em>your host and the computer your host uses to store, process and send your website</em>
+					</li>
 					<li>The Application<br />
-						<em>The software that actually runs your sites</em></li>
+						<em>The software that actually runs your sites</em>
+					</li>
 				</ol>
 			</section>
 
@@ -113,7 +115,9 @@
 					<li>Examples
 						<ul>
 							<li>ProtonVPN - <a href="https://protonvpn.com/">https://protonvpn.com/</a></li>
-							<li>Algo* - <a href="https://github.com/trailofbits/algo">https://github.com/trailofbits/algo</a></li>
+							<li>Algo* - <a
+									href="https://github.com/trailofbits/algo">https://github.com/trailofbits/algo</a>
+							</li>
 						</ul>
 					</li>
 				</ul>
@@ -133,7 +137,21 @@
 					<li>Password managers are easier than traditional passwords
 						<ul>
 							<li>1Password - <a href="https://1password.com">https://1password.com</a></li>
-							<li>Lastpass - <a href="https://lastpass.com">https://lastpass.com</a></li>
+							<li>Bitwarden - <a href="https://bitwarden.com">https://bitwarden.com</a></li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2>Use 2-factor Authentication (2FA)</h2>
+				<ul>
+					<li>"What you know" <i>and</i> "What you have"</li>
+					<li>Can often be implemented with your password manager</li>
+					<li>Hardware keys are the best
+						<ul>
+							<li>Yubikey - <a href="https://www.yubico.com">https://www.yubico.com</a></li>
+							<li>Can do much more than just 2FA</li>
 						</ul>
 					</li>
 				</ul>
@@ -164,9 +182,9 @@
 				<h2>Use Browser Extensions</h2>
 				<ul>
 					<li>Can protect against XSS (Cross-site Scripting )and CSRF (Cross-site Request Forgery)</li>
-					<li>Ad-block</li>
-					<li>Do not track</li>
-					<li>Duck Duck Go</li>
+					<li>Can block ads</li>
+					<li>Can remove trackers</li>
+					<li>Duck Duck Go - protect your search history</li>
 				</ul>
 			</section>
 
@@ -176,6 +194,7 @@
 					<li>Can protect against XSS (Cross-site Scripting )and CSRF (Cross-site Request Forgery)</li>
 					<li>Can block Ads</li>
 					<li>Can reduce tracking by other devices</li>
+					<li>Can prevent malware throughout your network</li>
 					<li><a href="httos://nextdns.io">NextDNS</a></li>
 				</ul>
 			</section>
@@ -220,9 +239,12 @@
 				<h2>Protect Your Domains</h2>
 				<ul>
 					<li>Increase TTL (time to live) to at least 86400 (1 day)</li>
+					<li>Don't share your domain registration account with other services, especially email</li>
 					<li>Use two-factor on ALL possible accounts
 						<ul>
-							<li>Two-Factor - <a href="https://wordpress.org/plugins/two-factor/">https://wordpress.org/plugins/two-factor/</a></li>
+							<li>Two-Factor - <a
+									href="https://wordpress.org/plugins/two-factor/">https://wordpress.org/plugins/two-factor/</a>
+							</li>
 							<li>Wordfence - <a href="https://www.wordfence.com/">https://www.wordfence.com/</a></li>
 						</ul>
 					</li>
@@ -247,7 +269,7 @@
 			</section>
 
 			<section>
-				<h2>Avoid Unlimited</h2>
+				<h2>Avoid "Unlimited" Accounts</h2>
 				<ul>
 					<li>Many hosts sell “unlimited” accounts that can host multiple sites</li>
 					<li>If one site is compromised they are all compromised</li>
@@ -298,16 +320,18 @@
 				<ul>
 					<li>Know when updates are available and perform updates
 						<ul>
-							<li>ManageWP - <a href="https://managewp.com">https://managewp.com</a></li>
+							<li>Automatic Updates</li>
 							<li>Wordfence - <a href="https://www.wordfence.com/">https://www.wordfence.com/</a></li>
 							<li>MainWP - <a href="https://mainwp.com">https://mainwp.com</a></li>
+							<li><i>Your host's update service</i></li>
 						</ul>
 					<li>Know when plugins/themes/core have a problem
 						<ul>
 							<li>WP Security Bloggers - <a
 									href="http://www.wpsecuritybloggers.com">http://www.wpsecuritybloggers.com</a>
 							</li>
-							<li>Sucuri - <a href="https://sucuri.net">https://sucuri.net</a></li>
+							<li>Wordfence Blog - <a
+									href="https://www.wordfence.com/blog/">https://www.wordfence.com/blog/</a></li>
 							<li>Threatpost - <a href="https://threatpost.com/">https://threatpost.com/</a></li>
 						</ul>
 					</li>
@@ -318,13 +342,13 @@
 				<h2>Last Line of Defense</h2>
 				<ul>
 					<li>Prevent brute-force (password guessing) Harden configuration</li>
-					<li>Prevent access to import info (usernames, etc)</li>
+					<li>Prevent access to import info</li>
 					<li>Enforce "Best practices"</li>
-					<li>Examples:
+					<li>Plugins to help:
 						<ul>
 							<li>Wordfence - <a href="https://www.wordfence.com/">https://www.wordfence.com/</a></li>
-							</li>
 						</ul>
+					</li>
 				</ul>
 			</section>
 
@@ -351,7 +375,7 @@
 						<ul>
 							<li>Jetpack - http://jetpack.me</li>
 							<li>New Relic - https://newrelic.com</li>
-							<li>Google Webster Tools - https://www.google.com/ webmasters</li>
+							<li>Google Search Console - https://search.google.com/search-console/about</li>
 						</ul>
 					</li>
 				</ul>
@@ -370,9 +394,7 @@
 					</li>
 					<li>Detect file changes:
 						<ul>
-							<li>iThemes Security - <a
-									href="https://ithemes.com/security/">https://ithemes.com/security/</a>
-							</li>
+							<li>Wordfence - <a href="https://www.wordfence.com/">https://www.wordfence.com/</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -406,6 +428,7 @@
 						<ul>
 							<li>Sucuri - <a href="https://sucuri.net">https://sucuri.net</a></li>
 							<li>HackRepair.com - <a href="http://hackrepair.com">http://hackrepair.com</a></li>
+							<li>Wordfence - <a href="https://www.wordfence.com/">https://www.wordfence.com/</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -418,8 +441,7 @@
 			<section>
 				<h2>Thank You</h2>
 
-				<h3><a href="https://slides.chriswiegman.com/swfl0217"
-						title="The Slides">https://slides.chriswiegman.com/swfl0217</a></h3>
+				<h3><a href="http://cfw.li/wproc0521" title="The Slides">http://cfw.li/wproc0521</a></h3>
 
 				<p>
 					<small><a href="https://www.chriswiegman.com/">Chris Wiegman</a> /
