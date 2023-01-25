@@ -10,7 +10,7 @@
     "type": "git",
     "url": "https://github.com/ChrisWiegman/slides.chriswiegman.com/"
   },
-  "author": "Chris Wiegman <contact@chriswiegman.com>",
+  "author": "Chris Wiegman <contact@chris.com>",
   "license": "ISC",
   "dependencies": {
     "milligram": "^1.4.1",
