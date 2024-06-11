@@ -1,17 +1,28 @@
 {
   "name": "slides.chriswiegman.com",
-  "version": "1.0.0",
   "description": "Source of slides.chriswiegman.com",
   "main": "index.html",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ChrisWiegman/slides.chriswiegman.com/"
   },
-  "author": "Chris Wiegman <contact@chris.com>",
-  "license": "ISC",
+  "author": "Chris Wiegman <contact@chriswiegman.com>",
+  "license": "CC-BY-NC-SA-4.0",
+  "workspaces": [
+    "hweb17dpa7",
+    "swfl0217",
+    "swfl0218",
+    "wcchi16",
+    "wcmia20",
+    "wcorl15",
+    "wcsea19",
+    "wctpa15",
+    "wctpa16",
+    "wcus15",
+    "wowp0721",
+    "wpcampus16",
+    "wproc0521"
+  ],
   "dependencies": {
     "milligram": "^1.4.1",
     "reveal.js": "^5.1.0"
