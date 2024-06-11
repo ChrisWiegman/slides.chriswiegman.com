@@ -32,7 +32,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./node_modules
+          path: ./
 
   # Deployment job
   deploy:
